@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <!-- start container -->
+    <div class="container">
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                <!-- Brand -->
+                <a class="navbar-brand" href="#">Home</a>
+
+                <!-- Links -->
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Question</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Ask</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Tags</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Profile</a>
+                  </li>
+                </ul>
+              </nav>
+              <br>
+              <!-- search  -->
+              <form >
+                <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search">
+                <button class="btn btn-success"  type="submit">Search</button>
+              </form>
+              <br>
+        <!-- card -->
+      {% if questions %}
+        {% for question in questions %}
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"><a href="/detail/{{question.id}}/">{{question.title}}</a></h4>
+            <p class="card-text">{{question.detail}}</p>
+            <a href="#" class="card-link">{{question.user.username}}</a>
+            <a href="#" class="card-link">10 comments</a>
+            <a href="#" class="card-link">2 tags</a>
+
+          </div>
+        </div>
+        <br>
+        {% endfor %}
+      {% endif %}
+
+        <!-- end card -->
+
+      <!-- pagination -->
+      {% if questions %}
+        <ul class="pagination">
+          {% if questions.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{questions.previous_page_number}}">Previous</a></li>
+          {% endif %}
+          {% for i in questions.paginator.page_range %}
+          {% if page.number == i %}
+          <li class="page-item active"><a class="page-link" href="">{{i}}</a></li>
+          {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+          {% endif %}
+          {% endfor %}
+          {% if questions.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{questions.next_page_number}}">Next</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      <!-- end pagination -->
+      </div>
+
+        <!-- end container -->
+  </body>
+  </html>
